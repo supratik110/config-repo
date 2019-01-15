@@ -4,7 +4,7 @@ pipeline {
            stage('load properties file..') {
                   steps {
                        script {
-                             props = readProperties file:'commonUtility/pipeline.properties'
+                             props = readProperties file:'properties/common.properties'
                              echo 'LOAD SUCCESS'
                              }
                       }    
