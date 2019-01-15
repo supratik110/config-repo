@@ -4,28 +4,36 @@ pipeline {
            stage('load properties file..') {
                   steps {
                        script {
-                             props = readProperties file:'properties/common.properties'
+                             commonProps = readProperties file:'properties/common.properties'
+							 gitProps = readProperties file:'properties/common.properties'
                              echo 'LOAD SUCCESS'
                              }
                       }    
                }
                stage('read git url file..') {
                   steps {
-                         git url: props.gitUrl,
-                         branch: props.branchName
+                         git url: gitProps.gitUrl,
+                         branch: gitProps.branchName
+						 
                          echo 'READ SUCCESS'
                         }    
                    }
               stage('sonar scan..') {
                   steps {
-                         sh props.buildSonarScan
-                         echo 'SONAR SCAN SUCCESS'
+						 dir(gitProps.path)
+						 {
+							sh commonProps.buildSonarScan
+							echo 'SONAR SCAN SUCCESS'
+						 }
                         }    
                    }
               stage('maven build..') {
                   steps {
-                         sh props.mavenClean
-                         echo 'BUILD SUCCESS'
+						 dir(gitProps.path)
+						 {
+							sh commonProps.mavenClean
+							echo 'BUILD SUCCESS'
+						 }
                         }    
                    }    
             }
