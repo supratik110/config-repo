@@ -5,7 +5,7 @@ pipeline {
                   steps {
                        script {
                              commonProps = readProperties file:'properties/common.properties'
-							 gitProps = readProperties file:'properties/common.properties'
+			     gitProps = readProperties file:'properties/git.properties'
                              echo 'LOAD SUCCESS'
                              }
                       }    
