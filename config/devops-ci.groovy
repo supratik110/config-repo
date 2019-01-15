@@ -1,4 +1,5 @@
 pipeline {
+     agent any
         stages {
            stage('load properties file..') {
                   steps {
