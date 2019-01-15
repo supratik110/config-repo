@@ -1,17 +1,32 @@
-node{
-    stage("Git") {
-    // coping from git
-    git 'https://github.com/supratik110/SupratikDevops301.git'
+pipeline {
+    agent { docker { image 'maven:3.3.3'}}
+        stages {
+           stage('load properties file..') {
+                  steps {
+                       script {
+                             props = readProperties file:'commonUtility/pipeline.properties'
+                             echo 'LOAD SUCCESS'
+                             }
+                      }    
+               }
+               stage('read git url file..') {
+                  steps {
+                         git url: props.gitUrl,
+                         branch: props.branchName
+                         echo 'READ SUCCESS'
+                        }    
+                   }
+              stage('sonar scan..') {
+                  steps {
+                         sh props.buildSonarScan
+                         echo 'SONAR SCAN SUCCESS'
+                        }    
+                   }
+              stage('maven build..') {
+                  steps {
+                         sh props.mavenClean
+                         echo 'BUILD SUCCESS'
+                        }    
+                   }    
+            }
     }
-    stage('Building SONAR ...'){
-    def project_path= "Application/"
-    dir(project_path) {
-    // some block
-    withSonarQubeEnv('My SonarQube Server') {
-      // requires SonarQube Scanner for Maven 3.2+
-      sh 'mvn clean package org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
-    }
-    archiveArtifacts 'sampleWebApp/target/*.war'
-    }
-}
-}
