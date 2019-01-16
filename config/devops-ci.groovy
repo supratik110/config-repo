@@ -39,7 +39,7 @@ pipeline {
                    }
 		stage('DEPLOY') {
                   steps {
-			deployProps.tomcatDeploy+' '+deployProps.tomcatPath
+			sh deployProps.tomcatDeploy+' '+deployProps.tomcatPath
 			deployProps.restartTomcat
 				  
             }
