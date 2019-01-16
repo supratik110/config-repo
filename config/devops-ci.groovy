@@ -1,16 +1,17 @@
 pipeline {
      agent any
         stages {
-           stage('load properties file..') {
+		stage('LOAD PROPERTIES FILES') {
                   steps {
                        script {
-                             commonProps = readProperties file:'properties/common.properties'
-			     gitProps = readProperties file:'properties/git.properties'
-                             echo 'LOAD SUCCESS'
+				commonProps = readProperties file:'properties/common.properties'
+				gitProps = readProperties file:'properties/git.properties'
+				deployProps = readProperties file:'properties/deploy.properties'
+				echo 'LOAD SUCCESS'
                              }
                       }    
                }
-               stage('read git url file..') {
+		stage('READ GIT') {
                   steps {
                          git url: gitProps.gitUrl,
                          branch: gitProps.branchName
@@ -18,23 +19,28 @@ pipeline {
                          echo 'READ SUCCESS'
                         }    
                    }
-              stage('sonar scan..') {
+		stage('SONAR SCAN') {
                   steps {
-						 dir(gitProps.path)
-						 {
-							sh commonProps.buildSonarScan
-							echo 'SONAR SCAN SUCCESS'
-						 }
+			dir(gitProps.path)
+			{
+				sh commonProps.buildSonarScan
+				echo 'SONAR SCAN SUCCESS'
+			}
                         }    
                    }
-              stage('maven build..') {
+		stage('BUILD') {
                   steps {
-						 dir(gitProps.path)
-						 {
-							sh commonProps.mavenClean
-							echo 'BUILD SUCCESS'
-						 }
+			dir(gitProps.path)
+			{
+				sh commonProps.mavenClean
+				echo 'BUILD SUCCESS'
+			}
                         }    
-                   }    
+                   }
+		stage('DEPLOY') {
+                  steps {
+			deployProps.tomcatDeploy+' '+tomcatPath
+			restartTomcat
+				  
             }
     }
