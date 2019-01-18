@@ -41,7 +41,7 @@ pipeline {
 		stage('UPLOAD ARTIFACT') {
                   steps {
 					script {
-					server = Artifactory.server 'artifactoryProps.artifactServer'
+					server = Artifactory.server artifactoryProps.artifactServer
 					 uploadSpec = """{
 						"files": [
 						{
