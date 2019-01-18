@@ -45,7 +45,7 @@ pipeline {
 				def uploadSpec = """{
                 		"files": [
                     		{
-                       			"pattern": "demo-java/target/*.war",
+                       			"pattern": "/target/*.war",
                         		"target": "demo-java/target"
                     		}
                     		]
