@@ -40,18 +40,18 @@ pipeline {
                    }
 		stage('UPLOAD ARTIFACT') {
                   steps {
-					script {
-					server = Artifactory.server artifactoryProps.artifactServer
-					 uploadSpec = """{
-						"files": [
-						{
-                        "pattern": '/target/*.war",
-                        "target": "demo-java/backup"
-						}
-						]
-						}"""
-					server.upload(uploadSpec)
-				  }
+			script {
+				server = Artifactory.server artifactoryProps.artifactServer
+				def uploadSpec = """{
+                		"files": [
+                    		{
+                       			"pattern": "demo-java/target/*.war",
+                        		"target": "demo-java/target"
+                    		}
+                    		]
+                		}"""
+            			server.upload(uploadS
+				}
 				}
 			}
 		stage('DEPLOY') {
