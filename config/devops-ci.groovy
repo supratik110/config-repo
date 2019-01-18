@@ -50,7 +50,7 @@ pipeline {
                     		}
                     		]
                 		}"""
-            			server.upload(uploadS
+            			server.upload(uploadSpec)
 				}
 				}
 			}
