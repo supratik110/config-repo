@@ -1,5 +1,6 @@
-     agent any
-        stages {
+pipeline {
+	agent any
+        	stages {
 		stage('LOAD PROPERTIES FILES') {
                   steps {
                        script {
