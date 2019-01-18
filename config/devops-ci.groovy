@@ -45,8 +45,8 @@ pipeline {
 					 uploadSpec = """{
 						"files": [
 						{
-                        "pattern": artifactoryProps.uploadSpecSource,
-                        "target": artifactoryProps.uploadSpecTarget
+                        "pattern": '/target/*.war",
+                        "target": "demo-java/backup"
 						}
 						]
 						}"""
