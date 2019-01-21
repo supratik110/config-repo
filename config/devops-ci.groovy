@@ -52,11 +52,13 @@ pipeline {
                 		}"""
             			server.upload(uploadSpec)
 				}
+				echo 'ARTIFACT SUCCESS'
 				}
 			}
 		stage('DEPLOY') {
                   steps {
 		  	sh deployProps.dockerStop
+			sh deployProps.dockerImageDelete
 			sh deployProps.dockerDeploy
 			sh deployProps.dockerRestart
 			echo 'DEPLOY SUCCESS'
