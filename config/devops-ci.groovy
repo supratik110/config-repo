@@ -58,7 +58,7 @@ pipeline {
                   steps {
 		  	
 			sh deployProps.dockerDeploy
-			sh deployProps.dockerDestart
+			sh deployProps.dockerRestart
 			echo 'DEPLOY SUCCESS'
 				  
             }
