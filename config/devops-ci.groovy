@@ -59,7 +59,7 @@ pipeline {
                   steps {
 						try	{
 							sh 'echo '+deployProps.dockerContainerId+'> result'
-							if(!isNulloutput=readFile('result').trim())
+							if(!isNull(output=readFile('result').trim()))
 							{
 								sh docker rm $(docker stop $(deployProps.dockerContainerId))
 								sh deployProps.dockerImageDelete
