@@ -64,7 +64,7 @@ pipeline {
 							{
 								echo output
 								sh deployProps.dockerContainerRm
-								sh deployProps.dockerImageDelete
+								
 							}
 							}catch (err)
 							{
