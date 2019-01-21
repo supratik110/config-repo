@@ -42,11 +42,11 @@ pipeline {
                   steps {
 			script {
 				server = Artifactory.server artifactoryProps.artifactServer
-				def uploadSpec = """{
+				uploadSpec = """{
                 		"files": [
                     		{
                        			"pattern": "/target/*.war",
-                        		"target": "demo-java/target"
+                        		"target": "demo-java/target/"
                     		}
                     		]
                 		}"""
