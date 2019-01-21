@@ -61,11 +61,8 @@ pipeline {
 						try	{
 							sh deployProps.dockerContainerId
 							output=readFile('result').trim()
-							echo 'INSIDE TRY'
-							echo output
 							if(output!=null)
-							{	
-								echo 'INSIDE IF'
+							{
 								sh deployProps.dockerContainerRm
 							}
 							}catch (err)
