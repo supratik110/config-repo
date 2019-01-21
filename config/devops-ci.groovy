@@ -67,7 +67,11 @@ pipeline {
 							sh deployProps.dockerDeploy
 							sh deployProps.dockerRestart
 							echo 'DEPLOY SUCCESS'
+							}catch (err)
+							{
+							echo 'DEPLOY FAILED'
 							}
+							
 				  
             }
     }
