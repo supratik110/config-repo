@@ -57,6 +57,7 @@ pipeline {
 			}
 		stage('DEPLOY') {
                   steps {
+		  	script {
 						try	{
 							sh deployProps.dockerContainerId
 							if(!isNull(output=readFile('result').trim()))
@@ -71,6 +72,7 @@ pipeline {
 							{
 							echo 'DEPLOY FAILED'
 							}
+				}
 							
 				  
             }
