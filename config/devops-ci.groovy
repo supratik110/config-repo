@@ -58,7 +58,8 @@ pipeline {
 		stage('DEPLOY') {
                   steps {
 						try	{
-							if(!isNull(sh deployProps.dockerContainerId))
+							sh deployProps.dockerContainerId+'> result'
+							if(!isNulloutput=readFile('result').trim())
 							{
 								sh docker rm $(docker stop $(deployProps.dockerContainerId))
 								sh deployProps.dockerImageDelete
