@@ -56,7 +56,7 @@ pipeline {
 			}
 		stage('DEPLOY') {
                   steps {
-		  	//sh deployProps.dockerStop
+		  	
 			sh deployProps.tomcatDeploy
 			sh deployProps.restartTomcat
 			echo 'DEPLOY SUCCESS'
