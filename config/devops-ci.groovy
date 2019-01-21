@@ -57,11 +57,15 @@ pipeline {
 			}
 		stage('DEPLOY') {
                   steps {
-		  	sh deployProps.dockerStop
-			sh deployProps.dockerImageDelete
-			sh deployProps.dockerDeploy
-			sh deployProps.dockerRestart
-			echo 'DEPLOY SUCCESS'
+						try	{
+							if(!isNull(sh deployProps.dockerContainerId))
+							{
+								sh docker rm $(docker stop $(deployProps.dockerContainerId))
+								sh deployProps.dockerImageDelete
+							}
+							sh deployProps.dockerDeploy
+							sh deployProps.dockerRestart
+							echo 'DEPLOY SUCCESS'
 				  
             }
     }
