@@ -60,7 +60,7 @@ pipeline {
 		  	script {
 						try	{
 							sh deployProps.dockerContainerId
-							if((output=readFile('result').trim())==null)
+							if((output=readFile('result').trim())!=null)
 							{
 								sh deployProps.dockerContainerRm
 								sh deployProps.dockerImageDelete
