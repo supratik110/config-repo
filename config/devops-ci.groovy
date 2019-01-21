@@ -62,16 +62,18 @@ pipeline {
 							sh deployProps.dockerContainerId
 							if((output=readFile('result').trim())!=null)
 							{
+								echo output
 								sh deployProps.dockerContainerRm
 								sh deployProps.dockerImageDelete
+							}
+							}catch (err)
+							{
+							echo 'DELETE FAILED'
 							}
 							sh deployProps.dockerDeploy
 							sh deployProps.dockerRestart
 							echo 'DEPLOY SUCCESS'
-							}catch (err)
-							{
-							echo 'DEPLOY FAILED'
-							}
+							
 				}
 							
 				  
