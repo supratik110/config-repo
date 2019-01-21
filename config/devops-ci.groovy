@@ -60,9 +60,9 @@ pipeline {
 		  	script {
 						try	{
 							sh deployProps.dockerContainerId
-							output=readFile('result').trim())
+							output=readFile('result').trim()
 							echo "output"=output
-							if((output!=null)
+							if(output!=null)
 							{		
 								sh deployProps.dockerContainerRm
 							}
