@@ -58,7 +58,7 @@ pipeline {
 		stage('DEPLOY') {
                   steps {
 						try	{
-							echo deployProps.dockerContainerId+'> result'
+							sh deployProps.dockerContainerId
 							if(!isNull(output=readFile('result').trim()))
 							{
 								sh deployProps.dockerContainerRm
