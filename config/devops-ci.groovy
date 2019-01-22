@@ -101,7 +101,6 @@ def notifyBuild(String buildStatus)
  emailext (
       subject: subject,
       body: details,
-      recipientProviders: [[$class: 'DevelopersRecipientProvider']]
     )
  
 }
