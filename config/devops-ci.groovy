@@ -103,6 +103,7 @@ def notifyBuild(String buildStatus)
  emailext (
       subject: subject,
       body: details,
+      to: commonProps.recipients
     )
  
 }
