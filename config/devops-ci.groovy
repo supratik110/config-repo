@@ -59,7 +59,7 @@ pipeline {
 					buildName: "demo-java",
  					buildNumber: "${env.BUILD_NUMBER}",
                        			"pattern": "target/*.war",
-                        		"target": "demo-java/target/*.${env.BUILD_NUMBER}.war"
+                        		"target": "demo-java/target/${env.BUILD_NUMBER}/"
                     		}
                     		]
                 		}"""
