@@ -35,17 +35,15 @@ pipeline {
 						try{
 							dir(gitProps.path){
 								sh commonProps.mavenClean
-								currentBuild.result = "SUCCESSFUL"
-								echo currentBuild.result
+								status = "SUCCESSFUL"
 								echo 'BUILD SUCCESS'
 								}
 							}
 						catch (e) {
-							currentBuild.result = "FAILED"
-							echo currentBuild.result
+							status = "FAILED"
 								} 
 						finally {
-							notifyBuild(currentBuild.result)
+							notifyBuild(status)
 								}
 							} 
 						}
@@ -99,8 +97,6 @@ def notifyBuild(String buildStatus)
   def summary = "${subject} (${env.BUILD_URL})"
   def details = """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
     <p>Check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>"""
-    
-    echo buildStatus
 	
  emailext (
       subject: subject,
