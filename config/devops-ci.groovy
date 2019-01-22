@@ -57,7 +57,7 @@ pipeline {
                 		"files": [
                     		{	
 					buildName: 'demo-java',
- 					buildNumber: env.BUILD_NUMBER,
+ 					buildNumber: ${env.BUILD_NUMBER},
                        			"pattern": "target/*.war",
                         		"target": "demo-java/target/*.${env.BUILD_NUMBER}.war"
                     		}
