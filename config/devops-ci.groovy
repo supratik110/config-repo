@@ -56,8 +56,7 @@ pipeline {
 				uploadSpec = """{
                 		"files": [
                     		{	
-					buildName: "demo-java",
- 					buildNumber: "${env.BUILD_NUMBER}",
+					captureEnv: true,
                        			"pattern": "target/*.war",
                         		"target": "demo-java/target/${env.BUILD_NUMBER}/"
                     		}
