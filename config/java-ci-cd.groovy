@@ -1,17 +1,18 @@
-pipeline {
-	agent any
-        	stages {
-		stage('LOAD PROPERTIES FILES') {
+def loadProps(){
+stage('LOAD PROPERTIES FILES') {
                   steps {
                        script {
-				commonProps = readProperties file:'properties/common.properties'
-				gitProps = readProperties file:'properties/git.properties'
-				deployProps = readProperties file:'properties/deploy.properties'
-				artifactoryProps = readProperties file:'properties/artifactory.properties'
-				echo 'LOAD SUCCESS'
-                             }
-                      }    
-               }
+			commonProps = readProperties file:'properties/common.properties'
+			gitProps = readProperties file:'properties/git.properties'
+			deployProps = readProperties file:'properties/deploy.properties'
+			artifactoryProps = readProperties file:'properties/artifactory.properties'
+			echo 'LOAD SUCCESS'
+			}
+		}
+	}
+}
+
+def readScanBuild(){
 		stage('READ GIT') {
                   steps {
                          git url: gitProps.gitUrl,
@@ -48,7 +49,25 @@ pipeline {
 							} 
 						}
 					}
-		stage('UPLOAD ARTIFACT') {
+}
+
+def notifyBuild(String buildStatus)
+{
+  def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+  def summary = "${subject} (${env.BUILD_URL})"
+  def details = """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+    <p>Check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>"""
+	
+ emailext (
+      subject: subject,
+      body: details,
+      to: commonProps.recipients
+    )
+ 
+}
+
+def artifactory(){
+stage('UPLOAD ARTIFACT') {
                   steps {
 			script {
 				server = Artifactory.server artifactoryProps.artifactServer
@@ -66,9 +85,12 @@ pipeline {
 				echo 'ARTIFACT SUCCESS'
 				}
 			}
-		stage('DEPLOY') {
+		}
+
+def deploy(){
+stage('DEPLOY') {
                   steps {
-		  	script {
+					script {
 						try	{
 							sh deployProps.dockerContainerId
 							output=readFile('result').trim()
@@ -89,19 +111,4 @@ pipeline {
 				  
             }
     }
-   }
-}
-def notifyBuild(String buildStatus)
-{
-  def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
-  def summary = "${subject} (${env.BUILD_URL})"
-  def details = """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-    <p>Check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>"""
-	
- emailext (
-      subject: subject,
-      body: details,
-      to: commonProps.recipients
-    )
- 
 }
