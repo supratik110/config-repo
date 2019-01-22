@@ -100,15 +100,6 @@ def notifyBuild(String buildStatus)
   def details = """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
     <p>Check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>"""
 	
-  if (buildStatus == 'SUCCESSFUL') {
-    color = 'GREEN'
-    colorCode = '#00FF00'
-  } else {
-    color = 'RED'
-    colorCode = '#FF0000'
-  }
- slackSend (color: colorCode, message: summary)
- hipchatSend (color: color, notify: true, message: summary)
  emailext (
       subject: subject,
       body: details,
