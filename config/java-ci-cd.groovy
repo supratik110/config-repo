@@ -21,7 +21,6 @@ def scan(){
           }    
             
 def build(){
-		script{
 			try{
 				dir(gitProps.path){
 					sh commonProps.mavenClean
@@ -34,8 +33,7 @@ def build(){
 						} 
 			finally {
 					notifyBuild(status)
-					}
-				} 
+					} 
 			}
 					
 
@@ -55,7 +53,6 @@ def notifyBuild(String buildStatus)
 }
 
 def artifactory(){
-			script {
 				server = Artifactory.server artifactoryProps.artifactServer
 				uploadSpec = """{
                 		"files": [
@@ -67,13 +64,10 @@ def artifactory(){
                     		]
                 		}"""
             			server.upload(uploadSpec)
-				}
 				echo 'ARTIFACT SUCCESS'
 				}
 				
 def deploy(){
-
-		script {
 			try	{
 				sh deployProps.dockerContainerId
 				output=readFile('result').trim()
@@ -88,5 +82,4 @@ def deploy(){
 			sh deployProps.dockerDeploy
 			sh deployProps.dockerRestart
 			echo 'DEPLOY SUCCESS'				
-			}
 		}
