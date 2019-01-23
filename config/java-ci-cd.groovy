@@ -75,3 +75,4 @@ def deploy(){
 			sh deployProps.dockerRestart
 			echo 'DEPLOY SUCCESS'				
 		}
+return this
