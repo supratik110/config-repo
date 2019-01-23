@@ -6,9 +6,7 @@ def loadProps(){
 			artifactoryProps = readProperties file:'properties/artifactory.properties'
 			echo 'LOAD SUCCESS'
 			}
-		}
-	}
-}
+
 
 def read(){
 		git url: gitProps.gitUrl,
