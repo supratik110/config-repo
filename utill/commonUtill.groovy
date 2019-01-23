@@ -16,8 +16,9 @@ pipeline {
 			stage('READ GIT') {
                   steps {
 		  	script {
+			git url: gitProps.gitUrl,
+			branch: gitProps.branchName
 			echo 'READ SUCCESS'
-			configProp.read()
 				}
 					}
 				}
