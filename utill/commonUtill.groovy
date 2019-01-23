@@ -4,8 +4,8 @@ pipeline {
                        stage('PRE LOAD') {
                   	steps {
 			script {
-			prop = readProperties file:'properties/common.properties'
-			configProp = load prop.configFile
+			commonProps = readProperties file:'properties/common.properties'
+			configProp = load commonProps.configFile
 			}
 			}
 			}
