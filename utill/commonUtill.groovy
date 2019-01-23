@@ -5,11 +5,15 @@ pipeline {
                   steps {
                        script {
 		       	commonProps = readProperties file:'properties/common.properties'
+			echo 'LOAD SUCCESS1'
 			gitProps = readProperties file:'properties/git.properties'
+			echo 'LOAD SUCCESS2'
 			deployProps = readProperties file:'properties/deploy.properties'
+			echo 'LOAD SUCCESS3'
 			artifactoryProps = readProperties file:'properties/artifactory.properties'
+			echo 'LOAD SUCCESS4'
 			configProp = load commonProps.configFile
-			echo 'LOAD SUCCESS'
+			echo 'LOAD SUCCESS5'
 								}
 							}
 						}
