@@ -1,18 +1,15 @@
 pipeline {
 	agent any
         	stages {
-                       stage('PRE LOAD') {
-                  	steps {
-			script {
-			commonProps = readProperties file:'properties/common.properties'
-			configProp = load commonProps.configFile
-			}
-			}
-			}
 			stage('LOAD PROPERTIES FILES') {
                   steps {
                        script {
-								configProp.loadProps()
+		       	commonProps = readProperties file:'properties/common.properties'
+			gitProps = readProperties file:'properties/git.properties'
+			deployProps = readProperties file:'properties/deploy.properties'
+			artifactoryProps = readProperties file:'properties/artifactory.properties'
+			configProp = load commonProps.configFile
+			echo 'LOAD SUCCESS'
 								}
 							}
 						}
