@@ -3,16 +3,39 @@ pipeline {
         	stages {
                        stage('PRE LOAD') {
                   	steps {
-			script {
 			prop = readProperties file:'properties/common.properties'
-			configProp =prop.configFile
+			configProp = load prop.configFile
 			}
 			}
+			stage('LOAD PROPERTIES FILES') {
+                  steps {
+                       script {
+								configProp.loadProps()
+								}
+							}
+						}
+			stage('READ GIT') {
+                  steps {
+			configProp.read()
+					}
+			stage('SONAR SCAN') {
+                  steps {
+			configProp.scan()
+				}
 			}
-			configProp.loadProps()
-			configProp.readScanBuild()
+			stage('BUILD') {
+                  steps {
+			configProp.build()
+				}
+			}
+			stage('UPLOAD ARTIFACT') {
+                  steps {
 			configProp.artifactory()
+				}
+			}
+			stage('DEPLOY') {
+                  steps {
 			configProp.deploy()						
-                         
-                      }    
+                }         
+            }    
      	}
