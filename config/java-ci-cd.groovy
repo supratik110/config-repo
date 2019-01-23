@@ -1,5 +1,5 @@
 def read(){	
-		echo 'READ SUCCESS12'
+		echo gitProps.gitUrl
 		git url: gitProps.gitUrl,
 		echo 'READ SUCCESS3'
         branch: gitProps.branchName
