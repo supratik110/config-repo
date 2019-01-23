@@ -5,7 +5,7 @@ pipeline {
                   	steps {
 			script {
 			prop = readProperties file:'properties/common.properties'
-			configProp =prop.configFile
+			configProp = load prop.configFile
 			}
 			}
 			}
