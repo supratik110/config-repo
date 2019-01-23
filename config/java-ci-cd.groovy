@@ -1,7 +1,5 @@
 def loadProps(){
-stage('LOAD PROPERTIES FILES') {
-                  steps {
-                       script {
+
 			commonProps = readProperties file:'properties/common.properties'
 			gitProps = readProperties file:'properties/git.properties'
 			deployProps = readProperties file:'properties/deploy.properties'
@@ -12,44 +10,36 @@ stage('LOAD PROPERTIES FILES') {
 	}
 }
 
-def readScanBuild(){
-		stage('READ GIT') {
-                  steps {
-                         git url: gitProps.gitUrl,
-                         branch: gitProps.branchName
-						 
-                         echo 'READ SUCCESS'
-                        }    
-                   }
-		stage('SONAR SCAN') {
-                  steps {
-			dir(gitProps.path)
-			{
-				sh commonProps.buildSonarScan
-				echo 'SONAR SCAN SUCCESS'
+def read(){
+		git url: gitProps.gitUrl,
+        branch: gitProps.branchName
+		echo 'READ SUCCESS'
+          }    
+def scan(){                  
+		dir(gitProps.path){
+			sh commonProps.buildSonarScan
+			echo 'SONAR SCAN SUCCESS'
 			}
-                        }    
-                   }
-		stage('BUILD') {
-                  steps {
-					script{
-						try{
-							dir(gitProps.path){
-								sh commonProps.mavenClean
-								status = "SUCCESSFUL"
-								echo 'BUILD SUCCESS'
-								}
-							}
-						catch (e) {
-							status = "FAILED"
-								} 
-						finally {
-							notifyBuild(status)
-								}
-							} 
+          }    
+            
+def build(){
+		script{
+			try{
+				dir(gitProps.path){
+					sh commonProps.mavenClean
+					status = "SUCCESSFUL"
+					echo 'BUILD SUCCESS'
 						}
 					}
-}
+			catch (e) {
+					status = "FAILED"
+						} 
+			finally {
+					notifyBuild(status)
+					}
+				} 
+			}
+					
 
 def notifyBuild(String buildStatus)
 {
@@ -67,8 +57,6 @@ def notifyBuild(String buildStatus)
 }
 
 def artifactory(){
-stage('UPLOAD ARTIFACT') {
-                  steps {
 			script {
 				server = Artifactory.server artifactoryProps.artifactServer
 				uploadSpec = """{
@@ -84,31 +72,23 @@ stage('UPLOAD ARTIFACT') {
 				}
 				echo 'ARTIFACT SUCCESS'
 				}
+				
+def deploy(){
+
+		script {
+			try	{
+				sh deployProps.dockerContainerId
+				output=readFile('result').trim()
+				if(output!=null)
+					{
+						sh deployProps.dockerContainerRm
+					}
+				}catch (err)
+					{
+						echo 'DELETE FAILED'
+					}
+			sh deployProps.dockerDeploy
+			sh deployProps.dockerRestart
+			echo 'DEPLOY SUCCESS'				
 			}
 		}
-
-def deploy(){
-stage('DEPLOY') {
-                  steps {
-					script {
-						try	{
-							sh deployProps.dockerContainerId
-							output=readFile('result').trim()
-							if(output!=null)
-							{
-								sh deployProps.dockerContainerRm
-							}
-							}catch (err)
-							{
-							echo 'DELETE FAILED'
-							}
-							sh deployProps.dockerDeploy
-							sh deployProps.dockerRestart
-							echo 'DEPLOY SUCCESS'
-							
-				}
-							
-				  
-            }
-    }
-}
