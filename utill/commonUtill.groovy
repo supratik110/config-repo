@@ -8,13 +8,15 @@ pipeline {
 			gitProps = readProperties file:'properties/git.properties'
 			deployProps = readProperties file:'properties/deploy.properties'
 			artifactoryProps = readProperties file:'properties/artifactory.properties'
-			configProp = load commonProps.configFile
+			configProp = readProperties file:'${commonProps.configFile}'
+			echo 'LOAD SUCCESS'
 				}
 			}
 			}
 			stage('READ GIT') {
                   steps {
 		  	script {
+			echo 'READ SUCCESS'
 			configProp.read()
 				}
 					}
