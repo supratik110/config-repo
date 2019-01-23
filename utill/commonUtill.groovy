@@ -18,6 +18,7 @@ pipeline {
                   steps {
 			configProp.read()
 					}
+				}
 			stage('SONAR SCAN') {
                   steps {
 			configProp.scan()
@@ -39,3 +40,4 @@ pipeline {
                 }         
             }    
      	}
+}
