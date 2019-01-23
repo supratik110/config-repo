@@ -1,10 +1,3 @@
-def read(){	
-		echo gitProps.gitUrl
-		git url: gitProps.gitUrl,
-		echo 'READ SUCCESS3'
-        branch: gitProps.branchName
-		echo 'READ SUCCESS4'
-          }    
 def scan(){                  
 		dir(gitProps.path){
 			sh commonProps.buildSonarScan
