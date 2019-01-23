@@ -8,7 +8,7 @@ pipeline {
 			gitProps = readProperties file:'properties/git.properties'
 			deployProps = readProperties file:'properties/deploy.properties'
 			artifactoryProps = readProperties file:'properties/artifactory.properties'
-			configProp = readProperties file:'config/java-ci-cd.groovy'
+			configProp = load commonProps.configFile
 			echo 'LOAD SUCCESS'
 				}
 			}
