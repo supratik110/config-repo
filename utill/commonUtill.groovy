@@ -56,6 +56,7 @@ pipeline {
                   steps {
 		  	script {
 			configProp.deploy()
+			deleteDir()
 			}
                 }         
             }    
