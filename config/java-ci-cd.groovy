@@ -1,15 +1,9 @@
-def loadProps(){
-			gitProps = readProperties file:'properties/git.properties'
-			deployProps = readProperties file:'properties/deploy.properties'
-			artifactoryProps = readProperties file:'properties/artifactory.properties'
-			echo 'LOAD SUCCESS'
-			}
-
-
-def read(){
+def read(){	
+		echo 'READ SUCCESS12'
 		git url: gitProps.gitUrl,
+		echo 'READ SUCCESS3'
         branch: gitProps.branchName
-		echo 'READ SUCCESS'
+		echo 'READ SUCCESS4'
           }    
 def scan(){                  
 		dir(gitProps.path){
